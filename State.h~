@@ -1,0 +1,18 @@
+#include "Common.h"
+
+class State
+{
+ public:
+  State(Game* const& game);
+  virtual ~State() = default;
+  
+  //delete copy constructor, assignment
+  //delete move constructor, assignment
+  
+  virtual void update(sf::Time delta, sf::RenderWindow &window) = 0;
+  virtual void render(sf::RenderWindow &window) = 0;
+
+protected:
+  Game* game;
+  sf::Font const font;
+}

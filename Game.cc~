@@ -1,0 +1,24 @@
+#include "Game.h"
+
+Game::Game()
+  :states{} {}
+
+void Game::push_state(std::unique_ptr<State> state)
+{
+  states.push_back(std::move(state));
+}
+
+void Game::pop_state()
+{
+  states.pop_back();
+}
+
+void Game::run(sf::RenderWindow &window)
+{
+  sf::Clock clock;
+
+  while(window.isOpen())
+    {
+      auto delta = clock.restart();
+    }
+}

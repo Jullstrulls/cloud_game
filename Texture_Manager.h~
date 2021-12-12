@@ -1,0 +1,21 @@
+#pragma once
+#include "common.h"
+#include <map>
+
+//hanterar textures
+//singleton class
+
+class Texture_Manager
+{
+public:
+  static sf::Texture *get(const string &name);
+
+private:
+  //privat konstruktor, bara vi kan skapa instanser
+  Texture_Manager() = default;
+
+  static Texture_Manager instance;
+
+  
+  std::map<string, std::unique_ptr<sf::Texture>> textures;
+};

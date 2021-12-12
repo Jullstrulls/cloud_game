@@ -1,0 +1,4 @@
+#include "State.h"
+
+State::State(Game* const& game)
+  :game{game}

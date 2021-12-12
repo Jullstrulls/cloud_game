@@ -1,0 +1,49 @@
+#include "Menu_State.h"
+
+Menu_State::Menu_State(std::shared_ptr<Game> game)
+  :State{game}, selected_item{0}
+{
+  add_option(0, "PLAY");
+  add_option(1, "RULES");
+  add_option(2, "EXIT");
+}
+
+void Menu_State::add_option(int index, string input)
+{
+  menu[index].setFont(font);
+  if (index == selected_item)
+    {
+      menu[index].setFillColor(sf::Color::Blue);
+    }
+  else
+    {
+      menu[index].setFillColor(sf::Color::White);
+    }
+  menu[index].setString(input);
+  menu[index].setPosition(sf::Vector2f(width/2, height/ NR_OF_MENY_ITEMS + 1 * index + 1));
+}
+
+void Menu_State::update(sf::Time, sf::RenderWindow &window)
+{
+  sf::Event event;
+
+  while(window.pollEvent(event))
+    {
+      switch(event.type)
+	{
+	case sf::Event::Closed:
+	  window.close();
+	  break;
+	default:
+	  break;
+	}
+    }
+}
+
+void Menu_State::render(sf::RenderWindow &window)
+{
+  for (int i{0}; i < 3; i++)
+    {
+      window.draw(menu[i]);
+    }
+}
