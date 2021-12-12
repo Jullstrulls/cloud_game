@@ -19,9 +19,19 @@ public:
   void add_clouds(int nr_of_clouds);
   
 private:
+  struct Cloud
+  {
+    Cloud(sf::Vector2f const& size, sf::Vector2f const& position, float const opacity, float const speed);
+    void move(sf::Time delta);
+    sf::RectangleShape cloud;
+    sf::Vector2f size;
+    sf::Vector2f location;
+    float speed;
+  };
+  
   int selected_item;
   sf::Text menu[NR_OF_MENY_ITEMS];
-  vector<sf::RectangleShape> clouds;
+  vector<std::shared_ptr<Cloud>> clouds;  
 
   void add_option(int index, string input);
   

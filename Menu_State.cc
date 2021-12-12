@@ -1,4 +1,5 @@
 #include "Menu_State.h"
+#include "Texture_Manager.h"
 
 Menu_State::Menu_State(std::shared_ptr<Game> game)
   :State{game}, selected_item{0}
@@ -45,23 +46,20 @@ void Menu_State::update(sf::Time delta, sf::RenderWindow &window)
 	  break;
 	}
     }
+  
+  for (std::shared_ptr<Cloud> cloud_obj : clouds)
+  {
+    cloud_obj -> move(delta);
+  }
 
-  float distance = 5 * (delta.asMicroseconds() / 1000000.0f);
-  for (sf::RectangleShape cloud : clouds)
-    {
-      // cout << "tho" << endl;
-      // sf::Vector2f location{cloud.getPosition()};
-      // location.x += 5 * distance;
-      cloud.setPosition(sf::Vector2f(20,20));//location);
-    }
 }
 
 void Menu_State::render(sf::RenderWindow &window)
 {
   window.clear(sf::Color(71,160,255,255));
-  for (sf::RectangleShape cloud : clouds)
+  for (std::shared_ptr<Cloud> cloud_obj : clouds)
     {
-      window.draw(cloud);
+      window.draw(cloud_obj -> cloud);
     }
   for (int i{0}; i < 3; i++)
     {
@@ -79,11 +77,31 @@ void Menu_State::add_clouds(int nr_of_clouds)
       float random_x = rand() % 1024;
       float random_y = rand() % 768;
       float random_opacity = rand() % 255;
+      float random_speed = (rand() % 9) + 1;
       
-      sf::RectangleShape cloud{sf::Vector2f(random_width, random_height)};
-      cloud.setPosition(sf::Vector2f(random_x, random_y));
-      cloud.setFillColor(sf::Color(255,255,255,random_opacity));
-
-      clouds.push_back(cloud);	 
+      clouds.push_back(std::shared_ptr<Cloud>(new Cloud{sf::Vector2f(random_width, random_height), sf::Vector2f(random_x, random_y), random_opacity, random_speed}));	 
     }
 }
+
+Menu_State::Cloud::Cloud(sf::Vector2f const& size, sf::Vector2f const& position, float const opacity, float const speed)
+  :cloud{size}, size{size}, location{position}, speed{speed}
+{
+   cloud.setPosition(location);
+   cloud.setTexture(Texture_Manager::get("cloud.png"));
+   cloud.setFillColor(sf::Color(255,255,255,opacity));
+}
+
+void Menu_State::Cloud::move(sf::Time delta)
+{
+  float distance = speed * (delta.asMicroseconds() / 1000000.0f);
+  location.x += 2 * distance;
+
+  if (location.x >= 1024)
+    {
+      location.x = - size.x;
+    }
+  cloud.setPosition(location);
+}
+
+
+
