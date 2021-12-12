@@ -9,7 +9,7 @@ public:
   Menu_State(std::shared_ptr<Game> game);
   
   //anropas från run?
-  void on_key_press(sf::Keyboard::Key key);
+  void on_key_press(sf::Keyboard::Key key, sf::RenderWindow &window);
 
   virtual void update(sf::Time delta, sf::RenderWindow &window) override;
   virtual void render(sf::RenderWindow &window) override;
@@ -30,8 +30,14 @@ private:
   };
   
   int selected_item;
+  bool rules;
+  sf::Text game_name;
   sf::Text menu[NR_OF_MENY_ITEMS];
-  vector<std::shared_ptr<Cloud>> clouds;  
+  vector<std::shared_ptr<Cloud>> clouds;
+
+  sf::SoundBuffer buffer;
+  sf::Sound switch_sound;
+
 
   void add_option(int index, string input);
   

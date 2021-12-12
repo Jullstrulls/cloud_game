@@ -1,10 +1,12 @@
 #include "Game.h"
 #include "Menu_State.h"
+#include "GameState.h"
 
 Game::Game()
   :states{}, ptr_myself{this}
 {
-  push_state(move(std::unique_ptr<State> (new Menu_State{ptr_myself})));
+  push_state(std::move(std::unique_ptr<State> (new Game_State{ptr_myself})));
+  push_state(std::move(std::unique_ptr<State> (new Menu_State{ptr_myself})));
 }
 
 void Game::push_state(std::unique_ptr<State> state)
@@ -14,7 +16,8 @@ void Game::push_state(std::unique_ptr<State> state)
 
 void Game::pop_state()
 {
-  states.pop_back();
+  //cout << states.size() << endl;
+  states.pop_back(); 
 }
 
 void Game::run(sf::RenderWindow &window)

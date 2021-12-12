@@ -6,6 +6,7 @@
 #include <memory>
 // #include <cmath>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <stdexcept>
 
 using std::cout;

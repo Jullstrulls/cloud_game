@@ -1,0 +1,17 @@
+
+void Game_State::update(sf::Time delta, sf::RenderWindow &window)
+{
+  sf::Event event;
+  
+  while(window.pollEvent(event))
+    {
+      switch(event.type)
+	{
+	case sf::Event::Closed:
+	  window.close();
+	  break;
+	default:
+	  break;
+	}
+    }
+}
